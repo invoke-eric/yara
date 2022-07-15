@@ -1,0 +1,11 @@
+rule ooxml_xml_rels_external
+{
+    meta:
+        source = "https://github.com/invoke-eric/yara/"
+    strings:
+        $a1 = /Relationship Id[\s]{0,20}=[\s]{0,20}["|'][a-zA-Z0-9]{3,6}["|']/
+        $a2 = /Type[\s]{0,20}=[\s]{0,20}["|']http[s]?:\/\/[^"]{4,200}["|']/
+        $a3 = /Target[\s]{0,20}=[\s]{0,20}["|']http[s]?:\/\/[^"]{4,200}["|']/
+        $a4 = /TargetMode[\s]{0,20}=[\s]{0,20}["|']External["|']/
+        condition: all of them and @a1 < @a2 and @a2 < @a3 and @a3 < @a4
+}
